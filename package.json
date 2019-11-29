@@ -1,12 +1,38 @@
 {
   "name": "@qneyraud/q-lib",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "license": "ISC",
+  "description": "Library starter",
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "email": "quentin.neyraud@gmail.com",
+    "name": "Quentin Neyraud"
+  },
+  "maintainers": [
+    {
+      "email": "quentin.neyraud@gmail.com",
+      "name": "Quentin Neyraud"
+    }
+  ],
+  "contributors": [
+    {
+      "email": "quentin.neyraud@gmail.com",
+      "name": "Quentin Neyraud"
+    }
+  ],
+  "homepage": "https://github.com/quentinneyraud/q-lib",
+  "repository": {
+    "type": "",
+    "url": "https://github.com/quentinneyraud/q-lib"
+  },
+  "bugs": {
+    "email": "quentin.neyraud@gmail.com",
+    "url": "https://github.com/quentinneyraud/q-lib/issues"
+  },
+  "main": "src/generate.js",
+  "files": [],
+  "scripts": {
+    "lint": "eslint src/*",
+    "prepublish": "npm run lint"
+  }
 }
