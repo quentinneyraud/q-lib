@@ -44,6 +44,8 @@
     "eslint-plugin-standard": "^4.0.0"
   },
   "dependencies": {
-    "ejs": "^3.0.1"
+    "ejs": "^3.0.1",
+    "gitconfig": "^2.0.8",
+    "validate-npm-package-name": "^3.0.0"
   }
 }
