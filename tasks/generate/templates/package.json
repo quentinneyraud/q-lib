@@ -2,7 +2,7 @@
   "name": "LIBRARY_FULLNAME",
   "version": "1.0.0",
   "license": "ISC",
-  "description": "LIBRARY_DESCRIPTION",
+  <% if (libraryDescription.length > 0) { -%>"description": "<%= libraryDescription -%>",<% } -%>
   "keywords": [],
   "author": {
     "email": "quentin.neyraud@gmail.com",

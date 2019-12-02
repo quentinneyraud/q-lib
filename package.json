@@ -46,6 +46,7 @@
   "dependencies": {
     "ejs": "^3.0.1",
     "gitconfig": "^2.0.8",
+    "glob": "^7.1.6",
     "validate-npm-package-name": "^3.0.0"
   }
 }

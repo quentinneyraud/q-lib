@@ -3,7 +3,6 @@ const inquirer = require('inquirer')
 const validateNpm = require('validate-npm-package-name')
 
 const questions = [
-  new inquirer.Separator('KXhjbcdvhjdfbvhjdfbvhj'),
   {
     type: 'input',
     name: 'libraryName',

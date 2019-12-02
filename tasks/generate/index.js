@@ -1,12 +1,26 @@
 // const fs = require('fs')
-const cli = require('./userInput')
+const getUserInput = require('./userInput')
+const moveFiles = require('./files')
 
-// fs.promises.mkdir('test/ok/ydegcg', {
-//   recursive: true
-// })
-//   .then(datas => {
-//     console.log(datas)
-//   })
-
-cli()
-  .then(datas => console.log(datas))
+// getUserInput()
+//   .then(moveFiles)
+moveFiles({ libraryName: 'My awesome library',
+  libraryDescription: 'My awesome library is doing awesome things',
+  fullPackageName: 'my-awesome-library',
+  features:
+ { eslint: false,
+   testing: true,
+   polyfilled: true,
+   minified: true,
+   documentation: false },
+  repositoryUrl: '',
+  documentationUrl: '',
+  packageName: 'my-awesome-library',
+  packageScope: undefined,
+  packageNamePascalCase: 'MyAwesomeLibrary' })
+  .then(d => {
+    console.log('OK')
+  })
+  .catch(err => {
+    console.log('Error', err)
+  })
