@@ -5,7 +5,93 @@ const fs = require('fs')
 const fsPromises = fs.promises
 
 const TEMPLATES_ROOT = path.resolve(__dirname, './templates')
+let PACKAGE_ROOT
 
+/**
+ * Async create new directory
+ *
+ * @param {string} directoryPath - The path of the directory
+ * @param {boolean} recursive - Create recursively
+ *
+ * @returns {Promise}
+ */
+const createNewDirectory = (directoryPath, recursive = false) => {
+  return fsPromises.mkdir(directoryPath, {
+    recursive
+  })
+}
+
+class File {
+  constructor (filePath, packageInfos) {
+    this.filePath = filePath
+    this.packageInfos = packageInfos
+
+    this.setInfos()
+  }
+
+  /**
+   * Set path infos
+   */
+  setInfos () {
+    // file path relative to templates directory
+    this.relativeFilePath = path.relative(TEMPLATES_ROOT, this.filePath)
+
+    // destination file path in new package : package root + relative root + filename without ejs extension
+    this.packageFilePath = path.resolve(PACKAGE_ROOT, path.dirname(this.relativeFilePath), path.basename(this.filePath, '.ejs'))
+  }
+
+  /**
+   * Return whether this file should be moved to the package
+   *
+   * @returns {boolean}
+   */
+  isNeeded () {
+    if (/\.eslintrc\.js/.test(this.relativeFilePath)) return this.packageInfos.features.eslint
+    if (/\.babelrc/.test(this.relativeFilePath)) return this.packageInfos.features.polyfilled
+    if (/docs/.test(this.relativeFilePath)) return this.packageInfos.features.documentation
+    if (/example/.test(this.relativeFilePath)) return this.packageInfos.features.testing
+    return true
+  }
+
+  /**
+   * Async return the content of the file after EJS render
+   *
+   * @returns {Promise}
+   */
+  getContent () {
+    return ejs.renderFile(this.filePath, this.packageInfos, {
+      async: true
+    })
+  }
+
+  /**
+   * Create the file in the package directory, create his own directory if needed
+   *
+   * @param {string} content - content of the file
+   *
+   * @returns {Promise}
+   */
+  createFileInPackage (content) {
+    return createNewDirectory(path.dirname(this.packageFilePath), true)
+      .then(_ => fsPromises.writeFile(this.packageFilePath, content))
+  }
+
+  /**
+   * All file process
+   *
+   * @returns {Promise}
+   */
+  process () {
+    return this.getContent()
+      .then(this.createFileInPackage.bind(this))
+  }
+}
+
+/**
+ * Return all files (including hidden) in the templates directory
+ *
+ * @returns {Array} - All files
+ */
 const getAllFiles = () => {
   return new Promise((resolve, reject) => {
     glob(TEMPLATES_ROOT + '/**/*', {
@@ -18,46 +104,20 @@ const getAllFiles = () => {
   })
 }
 
-const createNewDirectory = (directoryPath, recursive = false) => {
-  return fsPromises.mkdir(directoryPath, {
-    recursive
-  })
-}
-
-const getProcessedFileContent = (filePath, datas = {}) => {
-  return ejs.renderFile(filePath, datas, {
-    async: true
-  })
-}
-
-const writeFile = (filePath, content) => {
-  return createNewDirectory(path.dirname(filePath), true)
-    .then(fsPromises.writeFile.bind(null, filePath, content))
-}
-
-const filterFiles = (files, config) => {
-  return files.filter(file => {
-    const rel = path.relative(TEMPLATES_ROOT, file)
-    if (path.basename === '.eslintrc.js') return config.features.eslint
-    if (rel === '.babelrc') return config.features.polyfilled
-    if (rel.includes('docs')) return config.features.documentation
-
-    return true
-  })
-}
-
-module.exports = (config) => {
-  const PACKAGE_ROOT = path.resolve(process.cwd(), config.fullPackageName)
+module.exports = (packageInfos) => {
+  PACKAGE_ROOT = path.resolve(process.cwd(), packageInfos.fullPackageName)
 
   return createNewDirectory(PACKAGE_ROOT)
     .then(getAllFiles)
-    .then(files => filterFiles(files, config))
+    .then(files => {
+      return files.map(file => new File(file, packageInfos))
+    })
+    .then(files => {
+      return files.filter(file => file.isNeeded())
+    })
     .then(files => {
       const promises = files.map(file => {
-        const filePath = path.resolve(PACKAGE_ROOT, path.relative(TEMPLATES_ROOT, file))
-
-        return getProcessedFileContent(file, config)
-          .then(fileContent => writeFile(filePath, fileContent))
+        return file.process()
       })
       return Promise.all(promises)
     })
@@ -65,7 +125,6 @@ module.exports = (config) => {
       if (err.code === 'EEXIST') {
         throw new Error(err)
       }
-
       throw new Error(err)
     })
 }
