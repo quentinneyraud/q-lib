@@ -29,7 +29,9 @@
     "email": "quentin.neyraud@gmail.com",
     "url": "https://github.com/quentinneyraud/q-lib/issues"
   },
-  "main": "tasks/generate.js",
+  "bin": {
+    "create-new": "./bin/index.js"
+  },
   "files": [],
   "scripts": {
     "lint": "eslint tasks/*",

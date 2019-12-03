@@ -22,6 +22,12 @@ const createNewDirectory = (directoryPath, recursive = false) => {
 }
 
 class File {
+  /**
+   * Create a new File instance
+   *
+   * @param {string} filePath - File path
+   * @param {*} packageInfos - New package infos
+   */
   constructor (filePath, packageInfos) {
     this.filePath = filePath
     this.packageInfos = packageInfos
@@ -105,26 +111,32 @@ const getAllFiles = () => {
 }
 
 module.exports = (packageInfos) => {
-  PACKAGE_ROOT = path.resolve(process.cwd(), packageInfos.fullPackageName)
+  PACKAGE_ROOT = path.resolve(process.cwd(), packageInfos.packageName)
 
   return createNewDirectory(PACKAGE_ROOT)
+    // Get simple glob
     .then(getAllFiles)
-    .then(files => {
-      return files.map(file => new File(file, packageInfos))
-    })
-    .then(files => {
-      return files.filter(file => file.isNeeded())
-    })
+
+    // Create File instances
+    .then(files => files.map(file => new File(file, packageInfos)))
+
+    // Keep only files useful for the checked features
+    .then(files => files.filter(file => file.isNeeded()))
+
+    // Create promise of all files processing
     .then(files => {
       const promises = files.map(file => {
         return file.process()
       })
       return Promise.all(promises)
     })
+
+    // Friendly errors and throw uncaught
     .catch(err => {
       if (err.code === 'EEXIST') {
         throw new Error(err)
       }
+
       throw new Error(err)
     })
 }

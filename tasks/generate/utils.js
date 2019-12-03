@@ -11,6 +11,9 @@ const isUrl = str => {
   return !pattern.test(str)
 }
 
+// https://www.w3resource.com/javascript/form/email-validation.php
+const isEmail = str => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str)
+
 // https://medium.com/@mhagemann/the-ultimate-way-to-slugify-a-url-string-in-javascript-b8e4a0d849e1
 const slugify = str => {
   const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;'
@@ -28,7 +31,7 @@ const slugify = str => {
 }
 
 // Extract package name and scope from a full name package
-const getPackageInfos = (packageName) => {
+const parsePackageName = (packageName) => {
   const pattern = new RegExp('^(?:@([^/]+?)[/])?([^/]+?)$')
   const nameMatch = packageName.match(pattern)
   if (nameMatch) {
@@ -44,9 +47,6 @@ const getPackageInfos = (packageName) => {
   }
 }
 
-// Log blank line n times
-const logBlank = n => console.log('\n'.repeat(n))
-
 // Convert string to PascalCase
 // https://gist.github.com/jacks0n/e0bfb71a48c64fbbd71e5c6e956b17d7
 const toPascalCase = str => {
@@ -57,7 +57,7 @@ const toPascalCase = str => {
     .join('')
 }
 
-const getGlobalGitUser = () => {
+const getGitUser = () => {
   return gc.get('user', {
     location: 'global'
   })
@@ -66,8 +66,8 @@ const getGlobalGitUser = () => {
 module.exports = {
   isUrl,
   slugify,
-  getPackageInfos,
-  logBlank,
+  parsePackageName,
   toPascalCase,
-  getGlobalGitUser
+  getGitUser,
+  isEmail
 }

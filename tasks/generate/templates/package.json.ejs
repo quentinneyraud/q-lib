@@ -1,8 +1,10 @@
 {
-  "name": "LIBRARY_FULLNAME",
+  "name": "<%= fullPackageName -%>",
   "version": "1.0.0",
   "license": "ISC",
-  <% if (libraryDescription.length > 0) { -%>"description": "<%= libraryDescription -%>",<% } -%>
+<% if (libraryDescription.length > 0) { -%>
+  "description": "<%= libraryDescription -%>",
+<% } -%>
   "keywords": [],
   "author": {
     "email": "quentin.neyraud@gmail.com",
