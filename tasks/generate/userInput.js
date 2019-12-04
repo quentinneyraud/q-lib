@@ -104,7 +104,8 @@ const processAnswers = config => {
     features: config.features.reduce((acc, curr) => {
       acc[curr] = true
       return acc
-    }, {})
+    }, {}),
+    hasUserInfos: config.userName.length > 0 || config.userEmail.length > 0
   }
 }
 
