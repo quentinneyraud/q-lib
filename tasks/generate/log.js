@@ -1,9 +1,12 @@
+const generatorPackageInformations = require('../../package.json')
+
 // Colors utils
 const RESET = '\x1b[0m'
 const TEXT_COLOR_GREEN = '\x1b[32m'
 const TEXT_COLOR_RED = '\x1b[31m'
 const TEXT_REVERSE = '\x1b[7m'
 const TEXT_BRIGHT = '\x1b[1m'
+const TEXT_UNDERSCORE = '\x1b[4m'
 
 const red = str => console.log(`${TEXT_COLOR_RED}${str}${RESET}`)
 
@@ -58,11 +61,26 @@ const logSuccessMessage = ({ packageName }) => {
   blankLine(1)
 }
 
+const logHelp = () => {
+  blankLine()
+
+  console.log(`${generatorPackageInformations.name} ${generatorPackageInformations.version}`)
+  console.log(`${TEXT_UNDERSCORE}Documentation:${RESET} ${generatorPackageInformations.homepage}`)
+
+  blankLine()
+
+  console.log(`${TEXT_BRIGHT}Usage${RESET}`)
+
+  console.log('    npm install -g @qneyraud/q-lib && q-lib create-new             Install globaly the package and create a new project')
+  console.log('    npx @qneyraud/q-lib create-new                                 Create a new project without installing the package')
+}
+
 const logError = error => {
   red(error.message)
 }
 
 module.exports = {
   blankLine,
-  logSuccessMessage
+  logSuccessMessage,
+  logHelp
 }

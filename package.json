@@ -30,7 +30,7 @@
     "url": "https://github.com/quentinneyraud/q-lib/issues"
   },
   "bin": {
-    "create-new": "./bin/index.js"
+    "q-lib": "./bin/index.js"
   },
   "files": [],
   "scripts": {
