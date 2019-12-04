@@ -37,21 +37,17 @@ const getQuestions = ({ gitUser }) => {
       message: 'Features',
       choices: [
         new inquirer.Separator(' = Develop = '), {
-          name: 'Eslint',
+          name: 'Lint sources directory',
           value: 'eslint',
           checked: true
         }, {
-          name: 'Testing folder',
+          name: 'Example for testing in development',
           value: 'testing',
           checked: true
         },
         new inquirer.Separator(' = Deploy = '), {
           name: 'Build polyfilled version',
           value: 'polyfilled',
-          checked: true
-        }, {
-          name: 'Build minified version',
-          value: 'minified',
           checked: true
         }, {
           name: 'Create documentation',
