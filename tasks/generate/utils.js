@@ -1,4 +1,7 @@
 const gc = require('gitconfig')
+const fs = require('fs')
+const glob = require('glob')
+const fsPromises = fs.promises
 
 // https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url/43467144
 const isUrl = str => {
@@ -57,9 +60,52 @@ const toPascalCase = str => {
     .join('')
 }
 
+/**
+ * @typedef GitUser
+ * @property {string} [name] - Git user name
+ * @property {string} [email] - Git user email
+ */
+/**
+ * Get global git user
+ *
+ * @returns {Promise<GitUser>} - The global git user
+ */
 const getGitUser = () => {
   return gc.get('user', {
     location: 'global'
+  })
+}
+
+/**
+ * Async create new directory
+ *
+ * @param {string} directoryPath - The path of the directory
+ * @param {boolean} [recursive=false] - Create recursively
+ *
+ * @returns {Promise}
+ */
+const createNewDirectory = (directoryPath, recursive = false) => {
+  return fsPromises.mkdir(directoryPath, {
+    recursive
+  })
+}
+
+/**
+ * Recursively return all files (including hidden) in the baseDirectory
+ *
+ * @param {string} - Base directory
+ *
+ * @returns {Promise} - Promise resolving all files in an array
+ */
+const getAllFiles = (baseDirectory) => {
+  return new Promise((resolve, reject) => {
+    glob(baseDirectory + '/**/*', {
+      nodir: true,
+      dot: true
+    }, (err, files) => {
+      if (err) reject(err)
+      resolve(files)
+    })
   })
 }
 
@@ -69,5 +115,7 @@ module.exports = {
   parsePackageName,
   toPascalCase,
   getGitUser,
-  isEmail
+  isEmail,
+  createNewDirectory,
+  getAllFiles
 }

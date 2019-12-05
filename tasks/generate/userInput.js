@@ -2,6 +2,8 @@ const { isUrl, slugify, parsePackageName, toPascalCase, getGitUser, isEmail } = 
 const inquirer = require('inquirer')
 const validateNpm = require('validate-npm-package-name')
 
+const FEATURES = ['eslint', 'testing', 'polyfilled', 'documentation']
+
 const getQuestions = ({ gitUser }) => {
   return [
     {
@@ -97,11 +99,10 @@ const processAnswers = config => {
     packageName: packageInfos.name,
     packageScope: packageInfos.scope,
     packageNamePascalCase: toPascalCase(packageInfos.name),
-    features: config.features.reduce((acc, curr) => {
-      acc[curr] = true
+    features: FEATURES.reduce((acc, curr) => {
+      acc[curr] = config.features.indexOf(curr) > -1
       return acc
-    }, {}),
-    hasUserInfos: config.userName.length > 0 || config.userEmail.length > 0
+    }, {})
   }
 }
 
