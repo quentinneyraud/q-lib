@@ -1,7 +1,7 @@
 const path = require('path')
-const TemplateFile = require('./file/TemplateFile')
-const PackageJsonTemplateFile = require('./file/PackageJsonTemplateFile')
-const { createNewDirectory, getAllFiles } = require('./utils')
+const TemplateFile = require('./TemplateFile')
+const PackageJsonTemplateFile = require('./PackageJsonTemplateFile')
+const { createNewDirectory, getAllFiles } = require('../utils')
 
 module.exports = (packageInfos, { directory }) => {
   const templateRoot = path.resolve(__dirname, './templates')

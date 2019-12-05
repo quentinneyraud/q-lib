@@ -1,12 +1,14 @@
-const getUserInput = require('./userInput')
-const moveFiles = require('./files')
-const { logSuccessMessage, logError } = require('./log')
+const Config = require('./lib/Config')
+const moveFiles = require('./lib/file/files')
+const { logSuccessMessage, logError } = require('./lib/log')
 
 module.exports = async ({ directory }) => {
-  const userInput = await getUserInput()
+  const config = new Config({ directory })
 
-  moveFiles(userInput, { directory })
-    .then(logSuccessMessage.bind(null, userInput))
+  config.init()
+    .then(config.setConfigFromCli.bind(config))
+    .then(moveFiles.bind(null, config))
+    .then(logSuccessMessage.bind(null, config))
     .catch(err => {
       logError(err)
     })
