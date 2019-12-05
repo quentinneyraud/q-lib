@@ -1,38 +1,45 @@
-# LIBRARY_TITLE
-
-> LIBRARY_DESCRIPTION
-
+# <%= libraryName -%>  
+  
+> <%= libraryDescription -%>  
+  
 ## Install
 
 ```bash
-yarn add LIBRARY_FULLNAME 
+yarn add <%= fullPackageName -%>  
 ```
 
 ## Usage
 
 ```js
 // minified
-import LIBRARY_NAME_PASCAL from 'LIBRARY_FULLNAME'
+import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>'
+
 // not minified
-import LIBRARY_NAME_PASCAL from 'LIBRARY_FULLNAME/umd/LIBRARY_NAME.min'
+import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packageName -%>.js'
+<% if (features.polyfilled) { -%>
+
 // polyfilled
-import LIBRARY_NAME_PASCAL from 'LIBRARY_FULLNAME/umd/LIBRARY_NAME.polyfilled'
+import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packageName -%>.polyfilled.js'
+
 // minified and polyfilled
-import LIBRARY_NAME_PASCAL from 'LIBRARY_FULLNAME/umd/LIBRARY_NAME.polyfilled.min'
+import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packageName -%>.polyfilled.min.js'
+<% } -%>
 
 ```
 
 ## Development
 
-```
+```bash
+<% if (repositoryUrl.length > 0) { -%>
 # clone repo
-git clone LIBRARY_REPO_URL
-cd LIBRARY_NAME
+git clone <%= repositoryUrl -%>
+cd <%= packageName -%>
 
+<% } -%>
 # install dependencies
 yarn
 
-# Run example
+# Run example and go to http://localhost:1234
 npm run dev
 ```
 

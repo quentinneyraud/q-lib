@@ -7,10 +7,10 @@
 ```bash
 # Install package and create project
 npm install -g @qneyraud/q-lib
-q-lib create-new
+q-lib create-new [directory]
 
 # Or use npx
-npm @qneyraud/q-lib create-new
+npm @qneyraud/q-lib create-new [directory]
 ```
 
 Then, follow instructions

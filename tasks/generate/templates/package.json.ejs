@@ -37,7 +37,7 @@
     "type": "git",
     "url": "LIBRARY_REPO_URL"
   },
-<% if (hasUserInfos === true || repositoryUrl.length > 0) { -%>
+<% if (userEmail.length > 0 || repositoryUrl.length > 0) { -%>
   "bugs": {
 <% if (userEmail.length > 0) { -%>
     "email": "<%= userEmail -%>",

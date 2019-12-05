@@ -71,16 +71,21 @@ const logHelp = () => {
 
   console.log(`${TEXT_BRIGHT}Usage${RESET}`)
 
-  console.log('    npm install -g @qneyraud/q-lib && q-lib create-new             Install globaly the package and create a new project')
-  console.log('    npx @qneyraud/q-lib create-new                                 Create a new project without installing the package')
+  console.log('    npm install -g @qneyraud/q-lib && q-lib create-new [directory]            Install globaly the package and create a new project')
+  console.log('    npx @qneyraud/q-lib create-new [directory]                                Create a new project without installing the package')
 }
 
 const logError = error => {
   red(error.message)
+
+  blankLine()
+
+  console.log(error)
 }
 
 module.exports = {
   blankLine,
   logSuccessMessage,
-  logHelp
+  logHelp,
+  logError
 }

@@ -110,8 +110,8 @@ const getAllFiles = () => {
   })
 }
 
-module.exports = (packageInfos) => {
-  PACKAGE_ROOT = path.resolve(process.cwd(), packageInfos.packageName)
+module.exports = (packageInfos, { directory }) => {
+  PACKAGE_ROOT = path.resolve(process.cwd(), directory || packageInfos.packageName)
 
   return createNewDirectory(PACKAGE_ROOT)
     // Get simple glob
@@ -134,7 +134,7 @@ module.exports = (packageInfos) => {
     // Friendly errors and throw uncaught
     .catch(err => {
       if (err.code === 'EEXIST') {
-        throw new Error(err)
+        throw new Error(`The directory ${PACKAGE_ROOT} already exists`)
       }
 
       throw new Error(err)

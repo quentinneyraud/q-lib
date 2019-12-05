@@ -1,5 +1,7 @@
 import { terser } from 'rollup-plugin-terser'
+<% if (features.polyfilled) { -%>
 import babel from 'rollup-plugin-babel'
+<% } -%>
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import rimraf from 'rimraf'
@@ -35,6 +37,7 @@ export default [
       name: 'LIBRARY_NAME'
     }]
   },
+<% if (features.polyfilled) { -%>
   // polyfilled
   {
     input: 'src/index.js',
@@ -64,4 +67,5 @@ export default [
       name: 'LIBRARY_NAME'
     }]
   }
+<% } -%>
 ]
