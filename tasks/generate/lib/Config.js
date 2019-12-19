@@ -135,24 +135,31 @@ module.exports = class Config {
   fillConfigWithCliAnswers (cliAnswers) {
     const packageInfos = parsePackageName(cliAnswers.fullPackageName)
 
+    // Default config override
     this.config = {
       ...this.config,
       title: cliAnswers.title,
-      description: cliAnswers.description,
-      package: {
-        fullName: cliAnswers.packageFullName,
-        name: packageInfos.name,
-        scope: packageInfos.scope,
-        namePascalCase: toPascalCase(packageInfos.name)
-      },
-      features: FEATURES.reduce((acc, curr) => {
-        acc[curr] = cliAnswers.features.indexOf(curr) > -1
-        return acc
-      }, {}),
-      user: {
-        name: (cliAnswers.userName) ? cliAnswers.userName : this.config.user.name,
-        email: (cliAnswers.userEmail) ? cliAnswers.userEmail : this.config.user.email
-      }
+      description: cliAnswers.description
     }
+
+    // Package infos
+    this.config.package = {
+      fullName: cliAnswers.packageFullName,
+      name: packageInfos.name,
+      scope: packageInfos.scope,
+      namePascalCase: toPascalCase(packageInfos.name)
+    }
+
+    // Features
+    // Cli return array of checked features => transform to get all features to true or false
+    this.config.features = FEATURES.reduce((acc, curr) => {
+      acc[curr] = cliAnswers.features.indexOf(curr) > -1
+      return acc
+    }, {})
+
+    // User
+    // Override if provided by CLI
+    if (cliAnswers.userName) this.config.user.name = cliAnswers.userName
+    if (cliAnswers.userEmail) this.config.user.email = cliAnswers.userEmail
   }
 }

@@ -40,7 +40,7 @@ module.exports = class TemplateFile {
     if (/\.eslintrc\.js/.test(this.relativeFilePath)) return this.packageInfos.features.eslint
     if (/\.babelrc/.test(this.relativeFilePath)) return this.packageInfos.features.polyfilled
     if (/docs/.test(this.relativeFilePath)) return this.packageInfos.features.documentation
-    if (/example/.test(this.relativeFilePath)) return this.packageInfos.features.testing
+    if (/example/.test(this.relativeFilePath)) return this.packageInfos.features.example
     return true
   }
 
@@ -68,7 +68,7 @@ module.exports = class TemplateFile {
   }
 
   /**
-   * All file process
+   * File process
    *
    * @returns {Promise}
    */
