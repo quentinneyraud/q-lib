@@ -21,6 +21,7 @@ Then, follow instructions
 
 ```bash
 npm run lint
+npm run lint:fix
 ```
 
 Personal config is extended by default but it can be changed in `.eslintrc.js`.
