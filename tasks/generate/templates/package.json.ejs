@@ -55,6 +55,7 @@
 <% if (features.eslint === true) { -%>
     "build": "npm run lint && rollup --config",
     "lint": "eslint src/*",
+    "lint:fix": "eslint src/* --fix",
     "prepublish": "npm run lint && npm run build"
 <% } else { -%>
     "prepublish": "npm run build"
