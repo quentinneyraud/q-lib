@@ -1,0 +1,104 @@
+{
+  "name": "<%= fullPackageName -%>",
+  "version": "1.0.0",
+  "license": "ISC",
+<% if (libraryDescription.length > 0) { -%>
+  "description": "<%= libraryDescription -%>",
+<% } -%>
+  "keywords": [],
+<% if (hasUserInfos === true) { -%>
+  "author": {
+<% if (userEmail.length > 0) { -%>
+    "email": "<%= userEmail -%>",
+<% } -%>
+<% if (userName.length > 0) { -%>
+    "name": "<%= userName -%>"
+<% } -%>
+  },
+  "maintainers": [{
+<% if (userEmail.length > 0) { -%>
+    "email": "<%= userEmail -%>",
+<% } -%>
+<% if (userName.length > 0) { -%>
+    "name": "<%= userName -%>"
+<% } -%>
+  }],
+  "contributors": [{
+<% if (userEmail.length > 0) { -%>
+    "email": "<%= userEmail -%>",
+<% } -%>
+<% if (userName.length > 0) { -%>
+    "name": "<%= userName -%>"
+<% } -%>
+  }],
+<% } -%>
+  "homepage": "LIBRARY_DOC_URL",
+  "repository": {
+    "type": "git",
+    "url": "LIBRARY_REPO_URL"
+  },
+<% if (userEmail.length > 0 || repositoryUrl.length > 0) { -%>
+  "bugs": {
+<% if (userEmail.length > 0) { -%>
+    "email": "<%= userEmail -%>",
+<% } -%>
+<% if (repositoryUrl.length > 0) { -%>
+    "url": "<%= repositoryUrl -%>/issues"
+<% } -%>
+  },
+<% } -%>
+  "main": "umd/<%= packageName -%>.min.js",
+  "files": [
+    "umd/*"
+  ],
+  "scripts": {
+<% if (features.eslint === true) { -%>
+    "build": "npm run lint && rollup --config",
+    "lint": "eslint src/*",
+    "prepublish": "npm run lint && npm run build"
+<% } else { -%>
+    "prepublish": "npm run build"
+    "build": "rollup --config",
+<% } -%>
+<% if (features.testing === true) { -%>
+    "dev": "parcel example/index.html",
+<% } -%>
+<% if (features.documentation === true) { -%>
+    "docs": "docsify serve ./docs",
+<% } -%>
+  },
+  "devDependencies": {
+<% if (features.polyfilled === true) { -%>
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+<% } -%>
+<% if (features.eslint === true) { -%>
+    "@qneyraud/eslint-config": "^1.0.3",
+<% } -%>
+<% if (features.documentation === true) { -%>
+    "docsify-cli": "^4.3.0",
+<% } -%>
+<% if (features.eslint === true) { -%>
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+<% } -%>
+    "parcel-bundler": "^1.12.3",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.15.6",
+<% if (features.polyfilled === true) { -%>
+    "rollup-plugin-babel": "^4.3.3",
+<% } -%>
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.0.0"
+  },
+<% if (features.polyfilled === true) { -%>
+  "dependencies": {
+    "core-js": "3"
+  }
+<% } -%>
+}
