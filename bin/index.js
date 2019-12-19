@@ -9,6 +9,6 @@ if (cmd === 'create-new') {
     directory
   })
 } else {
-  const { logHelp } = require('../tasks/generate/log')
+  const { logHelp } = require('../tasks/generate/lib/log')
   logHelp()
 }

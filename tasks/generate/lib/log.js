@@ -1,4 +1,4 @@
-const generatorPackageInformations = require('../../package.json')
+const generatorPackageInformations = require('../../../package.json')
 
 // Colors utils
 const RESET = '\x1b[0m'
@@ -71,8 +71,7 @@ const logHelp = () => {
 
   console.log(`${TEXT_BRIGHT}Usage${RESET}`)
 
-  console.log('    npm install -g @qneyraud/q-lib && q-lib create-new [directory]            Install globaly the package and create a new project')
-  console.log('    npx @qneyraud/q-lib create-new [directory]                                Create a new project without installing the package')
+  console.log('    q-lib create-new [directory]            Create a new project')
 }
 
 const logError = error => {
