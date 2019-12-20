@@ -5,11 +5,18 @@ const { logSuccessMessage, logError } = require('./lib/log')
 module.exports = async ({ directory }) => {
   const config = new Config({ directory })
 
-  config.init()
-    .then(config.setConfigFromCli.bind(config))
-    .then(moveFiles.bind(null, config))
-    .then(logSuccessMessage.bind(null, config))
-    .catch(err => {
-      logError(err)
-    })
+  try {
+    // Get config
+    const projectConfig = await config.init()
+      .then(_ => config.setConfigFromCli())
+      .then(_ => config.getConfig())
+
+    // Move files
+    await moveFiles(projectConfig)
+
+    // Log success message
+    logSuccessMessage(projectConfig)
+  } catch (err) {
+    logError(err)
+  }
 }

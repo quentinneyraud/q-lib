@@ -25,14 +25,18 @@ module.exports = class Config {
       user: {
         name: null,
         email: null
-      }
+      },
+      directory
     }
-    this.directoryName = directory
   }
 
   init () {
     return getGitUser()
-      .then(gitUser => this.config.user = { ...this.config.user, gitUser })
+      .then(gitUser => this.config.user = { ...this.config.user, ...gitUser })
+  }
+
+  getConfig () {
+    return this.config
   }
 
   getQuestions () {
@@ -47,13 +51,13 @@ module.exports = class Config {
         type: 'input',
         name: 'description',
         message: 'Library description',
-        default: currentSession => `${currentSession.libraryName} is doing awesome things`
+        default: currentSession => `${currentSession.title} is doing awesome things`
       },
       {
         type: 'input',
         name: 'packageFullName',
         message: 'Full package name with scope if needed (required)',
-        default: currentSession => slugify(currentSession.libraryName),
+        default: currentSession => slugify(currentSession.title),
         validate: value => {
           const validation = validateNpm(value)
 
@@ -101,7 +105,11 @@ module.exports = class Config {
         when: currentSession => currentSession.features.indexOf('documentation') > -1,
         name: 'documentation',
         message: 'Documentation URL',
-        default: currentSession => currentSession.repositoryUrl.length > 0 ? currentSession.repositoryUrl : '',
+        default: currentSession => {
+          if (!currentSession.repository) return ''
+
+          if (/https?:\/\/github.intuit.com\/[^/]+\/[^/]+/.test(currentSession.repository)) { return currentSession.repository.length > 0 ? currentSession.repository : '' }
+        },
         validate: (value) => {
           if (value.length === 0) return true
 
@@ -133,7 +141,7 @@ module.exports = class Config {
   }
 
   fillConfigWithCliAnswers (cliAnswers) {
-    const packageInfos = parsePackageName(cliAnswers.fullPackageName)
+    const packageInfos = parsePackageName(cliAnswers.packageFullName)
 
     // Default config override
     this.config = {
@@ -161,5 +169,10 @@ module.exports = class Config {
     // Override if provided by CLI
     if (cliAnswers.userName) this.config.user.name = cliAnswers.userName
     if (cliAnswers.userEmail) this.config.user.email = cliAnswers.userEmail
+
+    // Directory
+    if (!this.config.directory) {
+      this.config.directory = packageInfos.name
+    }
   }
 }

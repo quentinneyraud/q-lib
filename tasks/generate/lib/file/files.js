@@ -3,9 +3,9 @@ const TemplateFile = require('./TemplateFile')
 const PackageJsonTemplateFile = require('./PackageJsonTemplateFile')
 const { createNewDirectory, getAllFiles } = require('../utils')
 
-module.exports = (packageInfos, { directory }) => {
+module.exports = (config) => {
   const templateRoot = path.resolve(__dirname, './templates')
-  const packageRoot = path.resolve(process.cwd(), directory || packageInfos.packageName)
+  const packageRoot = path.resolve(process.cwd(), config.directory)
 
   return createNewDirectory(packageRoot)
     // Get simple glob
@@ -20,7 +20,7 @@ module.exports = (packageInfos, { directory }) => {
         ClassName = PackageJsonTemplateFile
       }
 
-      return new ClassName(file, { packageRoot, templateRoot }, packageInfos)
+      return new ClassName(file, { packageRoot, templateRoot }, config)
     }))
 
     // Keep only files useful for the checked features

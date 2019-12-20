@@ -34,7 +34,8 @@
   },
   "files": [],
   "scripts": {
-    "lint": "eslint tasks/*",
+    "lint": "eslint --fix tasks",
+    "lint:fix": "eslint tasks",
     "prepublish": "npm run lint"
   },
   "devDependencies": {

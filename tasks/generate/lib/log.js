@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const generatorPackageInformations = require('../../../package.json')
 
 // Colors utils
@@ -16,9 +18,11 @@ const title = str => console.log(`${TEXT_BRIGHT}${TEXT_REVERSE}${str}${RESET}`)
 
 const blankLine = (n = 1) => (n > 0) ? console.log('\n'.repeat(n - 1)) : null
 
-const logSuccessMessage = ({ packageName }) => {
+const logSuccessMessage = (config) => {
+  console.log(config)
+  let stepIndex = 1
   console.clear()
-  green('Your library is now ready !')
+  green(`${config.package.name} is now ready !`)
 
   blankLine()
 
@@ -26,37 +30,43 @@ const logSuccessMessage = ({ packageName }) => {
 
   blankLine(1)
 
-  title(' 1. Install packages ')
-  console.log(`cd ${packageName} && yarn install`)
+  title(` ${stepIndex++}. Install packages `)
+  console.log(`cd ${config.directory} && yarn install`)
 
   blankLine()
 
-  title(' 2. Init a new git repository ')
+  title(` ${stepIndex++}. Init a new git repository `)
   console.log(`git init`)
   console.log(`git commit --allow-empty -m "Initial commit"`)
 
+  if (config.features.example) {
+    blankLine()
+
+    title(` ${stepIndex++}. Start coding `)
+    console.log('yarn dev')
+    console.log('Go to http://localhost:1234')
+  }
+
+  if (config.features.documentation) {
+    blankLine()
+
+    title(` ${stepIndex++}. Write documentation `)
+    console.log('yarn docs')
+    console.log('Go to http://localhost:3000')
+  }
+
   blankLine()
 
-  title(' 3. Start coding ')
-  console.log('yarn dev')
-  console.log('Go to http://localhost:1234')
-
-  blankLine()
-
-  title(' 4. Write documentation ')
-  console.log('yarn docs')
-  console.log('Go to http://localhost:3000')
-
-  blankLine()
-
-  title(' 5. Deploy ')
+  title(` ${stepIndex++}. Deploy `)
   console.log('npm publish')
 
-  blankLine()
+  if (config.features.documentation) {
+    blankLine()
 
-  title(' 6. Deploy documentation ')
-  console.log('With Github Pages: Push to your github repository with Github pages set to /docs')
-  console.log('Other methods: https://docsify.js.org/#/deploy')
+    title(` ${stepIndex++}. Deploy documentation `)
+    console.log('With Github Pages: Push to your github repository with Github pages set to /docs')
+    console.log('Other methods: https://docsify.js.org/#/deploy')
+  }
 
   blankLine(1)
 }
