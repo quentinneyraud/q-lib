@@ -4,8 +4,9 @@ const validateNpm = require('validate-npm-package-name')
 
 const FEATURES = ['eslint', 'example', 'polyfilled', 'documentation']
 
-module.exports = class Config {
-  constructor ({ directory }) {
+class Config {
+  constructor () {
+    // base config
     this.config = {
       title: null,
       description: null,
@@ -26,16 +27,28 @@ module.exports = class Config {
         name: null,
         email: null
       },
-      directory
+      directory: null
     }
   }
 
-  init () {
-    return getGitUser()
-      .then(gitUser => this.config.user = { ...this.config.user, ...gitUser })
+  setDirectory (directory) {
+    this.config.directory = directory
   }
 
-  getConfig () {
+  async initGitUser () {
+    const { name, email } = await getGitUser()
+
+    this.config.user = {
+      ...this.config.user,
+      name,
+      email
+    }
+  }
+
+  async getProjectConfig () {
+    await this.initGitUser()
+    await this.setConfigFromCli()
+
     return this.config
   }
 
@@ -130,14 +143,10 @@ module.exports = class Config {
     ]
   }
 
-  setUserFromGit () {
-    return getGitUser()
-      .then(gitUser => this.config.user = { ...this.config.user, gitUser })
-  }
+  async setConfigFromCli () {
+    const userAnswers = await inquirer.prompt(this.getQuestions())
 
-  setConfigFromCli () {
-    return inquirer.prompt(this.getQuestions())
-      .then(this.fillConfigWithCliAnswers.bind(this))
+    this.fillConfigWithCliAnswers(userAnswers)
   }
 
   fillConfigWithCliAnswers (cliAnswers) {
@@ -155,11 +164,11 @@ module.exports = class Config {
       fullName: cliAnswers.packageFullName,
       name: packageInfos.name,
       scope: packageInfos.scope,
-      namePascalCase: toPascalCase(packageInfos.name)
+      pascalCaseName: toPascalCase(packageInfos.name)
     }
 
     // Features
-    // Cli return array of checked features => transform to get all features to true or false
+    // Cli return array with only checked features => transform to get all features to true or false
     this.config.features = FEATURES.reduce((acc, curr) => {
       acc[curr] = cliAnswers.features.indexOf(curr) > -1
       return acc
@@ -176,3 +185,5 @@ module.exports = class Config {
     }
   }
 }
+
+module.exports = new Config()

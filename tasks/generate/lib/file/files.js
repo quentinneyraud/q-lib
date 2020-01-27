@@ -2,44 +2,41 @@ const path = require('path')
 const TemplateFile = require('./TemplateFile')
 const PackageJsonTemplateFile = require('./PackageJsonTemplateFile')
 const { createNewDirectory, getAllFiles } = require('../utils')
+const TEMPLATE_ROOT = path.resolve(__dirname, '../../templates')
 
-module.exports = (config) => {
-  const templateRoot = path.resolve(__dirname, './templates')
+module.exports = async config => {
   const packageRoot = path.resolve(process.cwd(), config.directory)
 
-  return createNewDirectory(packageRoot)
-    // Get simple glob
-    .then(getAllFiles.bind(null, templateRoot))
+  // Create package directory
+  try {
+    await createNewDirectory(packageRoot)
+  } catch (err) {
+    if (err.code === 'EEXIST') {
+      throw new Error(`The directory ${packageRoot} already exists`)
+    }
+    throw new Error(err)
+  }
 
+  // Get simple glob
+  return getAllFiles(TEMPLATE_ROOT)
     // Create File instances
-    .then(files => files.map(file => {
-      let ClassName = TemplateFile
+    .then(filesPaths => {
+      return filesPaths.map(filePath => {
+        let ClassName = TemplateFile
 
-      // special class for package.json file, get interpolation + valid JSON is a nightmare :/
-      if (/package\.json/.test(path.basename(file))) {
-        ClassName = PackageJsonTemplateFile
-      }
+        if (/package\.json/.test(path.basename(filePath))) {
+          ClassName = PackageJsonTemplateFile
+        }
 
-      return new ClassName(file, { packageRoot, templateRoot }, config)
-    }))
-
+        return new ClassName(filePath, { packageRoot, templateRoot: TEMPLATE_ROOT }, config)
+      })
+    })
     // Keep only files useful for the checked features
     .then(files => files.filter(file => file.isNeeded()))
 
     // Create promise of all files processing
     .then(files => {
-      const promises = files.map(file => {
-        return file.process()
-      })
+      const promises = files.map(file => file.process())
       return Promise.all(promises)
-    })
-
-  // Friendly errors and throw uncaught
-    .catch(err => {
-      if (err.code === 'EEXIST') {
-        throw new Error(`The directory ${packageRoot} already exists`)
-      }
-
-      throw new Error(err)
     })
 }

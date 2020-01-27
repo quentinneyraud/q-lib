@@ -19,7 +19,6 @@ const title = str => console.log(`${TEXT_BRIGHT}${TEXT_REVERSE}${str}${RESET}`)
 const blankLine = (n = 1) => (n > 0) ? console.log('\n'.repeat(n - 1)) : null
 
 const logSuccessMessage = (config) => {
-  console.log(config)
   let stepIndex = 1
   console.clear()
   green(`${config.package.name} is now ready !`)

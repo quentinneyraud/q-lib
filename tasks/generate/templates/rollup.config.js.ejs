@@ -18,9 +18,9 @@ export default [
       commonjs()
     ],
     output: [{
-      file: 'umd/LIBRARY_NAME.js',
+      file: 'umd/<%= package.name -%>.js',
       format: 'umd',
-      name: 'LIBRARY_NAME'
+      name: '<%= package.name -%>'
     }]
   },
   // minified
@@ -32,9 +32,9 @@ export default [
       commonjs()
     ],
     output: [{
-      file: 'umd/LIBRARY_NAME.min.js',
+      file: 'umd/<%= package.name -%>.min.js',
       format: 'umd',
-      name: 'LIBRARY_NAME'
+      name: '<%= package.name -%>'
     }]
   },
 <% if (features.polyfilled) { -%>
@@ -47,9 +47,9 @@ export default [
       babel()
     ],
     output: [{
-      file: 'umd/LIBRARY_NAME.polyfill.js',
+      file: 'umd/<%= package.name -%>.polyfill.js',
       format: 'umd',
-      name: 'LIBRARY_NAME'
+      name: '<%= package.name -%>'
     }]
   },
   // polyfilled and minified
@@ -62,9 +62,9 @@ export default [
       babel()
     ],
     output: [{
-      file: 'umd/LIBRARY_NAME.polyfill.min.js',
+      file: 'umd/<%= package.name -%>.polyfill.min.js',
       format: 'umd',
-      name: 'LIBRARY_NAME'
+      name: '<%= package.name -%>'
     }]
   }
 <% } -%>

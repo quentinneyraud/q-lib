@@ -5,10 +5,10 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
     return new Promise((resolve) => {
       // User
       let user = null
-      if (this.packageInfos.userEmail.length > 0 || this.packageInfos.userEmail.length > 0) {
+      if (this.packageInfos.user.email.length > 0 || this.packageInfos.user.name.length > 0) {
         user = {}
-        if (this.packageInfos.userName.length > 0) user.name = this.packageInfos.userName
-        if (this.packageInfos.userEmail.length > 0) user.email = this.packageInfos.userEmail
+        if (this.packageInfos.user.name.length > 0) user.name = this.packageInfos.user.name
+        if (this.packageInfos.user.email.length > 0) user.email = this.packageInfos.user.email
       }
 
       // base

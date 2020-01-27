@@ -49,7 +49,7 @@ module.exports = class TemplateFile {
    *
    * @returns {Promise}
    */
-  getContent () {
+  async getContent () {
     return ejs.renderFile(this.filePath, this.packageInfos, {
       async: true
     })
@@ -62,9 +62,9 @@ module.exports = class TemplateFile {
    *
    * @returns {Promise}
    */
-  createFileInPackage (content) {
-    return createNewDirectory(path.dirname(this.packageFilePath), true)
-      .then(_ => fsPromises.writeFile(this.packageFilePath, content))
+  async createFileInPackage (content) {
+    await createNewDirectory(path.dirname(this.packageFilePath), true)
+    return fsPromises.writeFile(this.packageFilePath, content)
   }
 
   /**

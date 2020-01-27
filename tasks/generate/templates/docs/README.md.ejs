@@ -1,28 +1,28 @@
-# <%= libraryName -%>  
-  
-> <%= libraryDescription -%>  
-  
+# <%= package.fullName -%>
+
+> <%= description -%>
+
 ## Install
 
 ```bash
-yarn add <%= fullPackageName -%>  
+yarn add <%= package.fullName -%>
 ```
 
 ## Usage
 
 ```js
 // minified
-import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>'
+import <%= package.pascalCaseName -%> from '<%= package.fullName -%>'
 
 // not minified
-import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packageName -%>.js'
+import <%= package.pascalCaseName -%> from '<%= package.fullName -%>/umd/<%= package.name -%>.js'
 <% if (features.polyfilled) { -%>
 
 // polyfilled
-import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packageName -%>.polyfilled.js'
+import <%= package.pascalCaseName -%> from '<%= package.fullName -%>/umd/<%= package.name -%>.polyfilled.js'
 
 // minified and polyfilled
-import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packageName -%>.polyfilled.min.js'
+import <%= package.pascalCaseName -%> from '<%= package.fullName -%>/umd/<%= package.name -%>.polyfilled.min.js'
 <% } -%>
 
 ```
@@ -30,10 +30,10 @@ import <%= packageNamePascalCase -%> from '<%= fullPackageName -%>/umd/<%= packa
 ## Development
 
 ```bash
-<% if (repositoryUrl.length > 0) { -%>
+<% if (repository) { -%>
 # clone repo
-git clone <%= repositoryUrl -%>
-cd <%= packageName -%>
+git clone <%= repository -%>
+cd <%= package.name -%>
 
 <% } -%>
 # install dependencies
