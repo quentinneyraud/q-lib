@@ -83,7 +83,7 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
       }
       content.scripts.prepublish = 'npm run build'
       if (this.packageInfos.features.testing) {
-        content.scripts.dev = 'parcel example/index.html'
+        content.scripts.dev = 'parcel example/index.html --no-autoinstall'
       }
       if (this.packageInfos.features.documentation) {
         content.scripts.docs = 'docsify serve ./docs'
