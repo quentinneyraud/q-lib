@@ -13,7 +13,9 @@
   <script>
     window.$docsify = {
       name: '<%= package.name -%>',
-      <% if (repository) { -%>repo: '<%= repository -%>'<% } -%>
+<% if (repository) { -%>
+      repo: '<%= repository -%>'
+<% } -%>
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
