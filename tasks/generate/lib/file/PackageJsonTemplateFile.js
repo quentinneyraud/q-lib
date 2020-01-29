@@ -2,7 +2,6 @@ const TemplateFile = require('./TemplateFile')
 
 module.exports = class PackageJsonTemplateFile extends TemplateFile {
   getContent () {
-    console.log(this.packageInfos)
     return new Promise((resolve) => {
       // User
       let user = null
