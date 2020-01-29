@@ -2,6 +2,7 @@ const TemplateFile = require('./TemplateFile')
 
 module.exports = class PackageJsonTemplateFile extends TemplateFile {
   getContent () {
+    console.log(this.packageInfos)
     return new Promise((resolve) => {
       // User
       let user = null
@@ -82,7 +83,7 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
         content.scripts.build = 'rollup --config'
       }
       content.scripts.prepublish = 'npm run build'
-      if (this.packageInfos.features.testing) {
+      if (this.packageInfos.features.example) {
         content.scripts.dev = 'parcel example/index.html --no-autoinstall'
       }
       if (this.packageInfos.features.documentation) {
@@ -109,7 +110,7 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
         content.devDependencies['eslint-plugin-promise'] = '^4.1.1'
         content.devDependencies['eslint-plugin-standard'] = '^4.0.0'
       }
-      if (this.packageInfos.features.testing) {
+      if (this.packageInfos.features.example) {
         content.devDependencies['parcel-bundler'] = '^1.12.3'
       }
       content.devDependencies['rimraf'] = '^3.0.0'
