@@ -10,7 +10,7 @@ npm install -g @qneyraud/q-lib
 q-lib create-new [directory]
 
 # Or use npx
-npm @qneyraud/q-lib create-new [directory]
+npx @qneyraud/q-lib create-new [directory]
 ```
 
 Then, follow instructions
