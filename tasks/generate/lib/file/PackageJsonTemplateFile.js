@@ -13,7 +13,7 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
 
       // base
       const content = {
-        name: this.packageInfos.fullPackageName,
+        name: this.packageInfos.package.fullName,
         version: '1.0.0',
         license: 'ISC'
       }
@@ -68,7 +68,7 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
       }
 
       // main file
-      content.main = `umd/${this.packageInfos.packageName}.min.js`
+      content.main = `umd/${this.packageInfos.package.name}.min.js`
 
       // files
       content.files = ['umd/*']
