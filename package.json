@@ -32,7 +32,10 @@
   "bin": {
     "q-lib": "./bin/index.js"
   },
-  "files": [],
+  "files": [
+    "bin",
+    "tasks"
+  ],
   "scripts": {
     "lint": "eslint --fix tasks",
     "lint:fix": "eslint tasks",
