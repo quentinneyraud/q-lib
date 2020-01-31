@@ -36,7 +36,7 @@ const logSuccessMessage = (config) => {
 
   title(` ${stepIndex++}. Init a new git repository `)
   console.log(`git init`)
-  console.log(`git commit --allow-empty -m "Initial commit"`)
+  console.log(`git add . && git commit -m "Initial commit - from @qneyraud/q-lib"`)
 
   if (config.features.example) {
     blankLine()
