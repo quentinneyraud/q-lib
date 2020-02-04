@@ -81,7 +81,7 @@ module.exports = class PackageJsonTemplateFile extends TemplateFile {
       } else {
         content.scripts.build = 'rollup --config'
       }
-      content.scripts.prepublish = 'npm run build'
+      content.scripts.prepublishOnly = 'npm run build'
       if (this.packageInfos.features.example) {
         content.scripts.dev = 'parcel example/index.html --no-autoinstall'
       }

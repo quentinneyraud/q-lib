@@ -39,7 +39,7 @@
   "scripts": {
     "lint": "eslint --fix tasks",
     "lint:fix": "eslint tasks",
-    "prepublish": "npm run lint"
+    "prepublishOnly": "npm run lint"
   },
   "devDependencies": {
     "@qneyraud/eslint-config": "1.0.4",
